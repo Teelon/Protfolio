@@ -1,6 +1,7 @@
 import { LoginForm } from "@/components/auth/login-form"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
+import { Suspense } from "react"
 
 export default async function LoginPage({
   searchParams,
@@ -24,7 +25,9 @@ export default async function LoginPage({
           <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
           <p className="text-sm text-muted-foreground">Enter your credentials to sign in to your account</p>
         </div>
-        <LoginForm callbackUrl={sanitizedCallbackUrl} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoginForm callbackUrl={sanitizedCallbackUrl} />
+        </Suspense>
       </div>
     </div>
   )

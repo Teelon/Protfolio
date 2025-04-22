@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { signOut } from "@/auth"
+import { signOut } from "next-auth/react"
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -31,6 +31,10 @@ export function UserMenu({ user, mobile = false }: UserMenuProps) {
         .map((n) => n[0])
         .join("")
     : "U"
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" })
+  }
   
   // For mobile view, display a simpler menu without dropdown
   if (mobile) {
@@ -60,17 +64,15 @@ export function UserMenu({ user, mobile = false }: UserMenuProps) {
           <span>Settings</span>
         </Link>
         
-        <form action={async () => { await signOut() }}>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="w-full justify-start text-sm text-muted-foreground hover:text-foreground py-1"
-            type="submit"
-          >
-            <LogOut size={16} className="mr-2" />
-            <span>Sign out</span>
-          </Button>
-        </form>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="w-full justify-start text-sm text-muted-foreground hover:text-foreground py-1"
+          onClick={handleSignOut}
+        >
+          <LogOut size={16} className="mr-2" />
+          <span>Sign out</span>
+        </Button>
       </div>
     )
   }
@@ -105,17 +107,14 @@ export function UserMenu({ user, mobile = false }: UserMenuProps) {
           <Link href="/settings">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <form action={async () => { await signOut() }}>
-          <DropdownMenuItem asChild>
-            <Button 
-              variant="ghost" 
-              className="w-full justify-start cursor-pointer"
-              type="submit"
-            >
-              Sign out
-            </Button>
-          </DropdownMenuItem>
-        </form>
+        <DropdownMenuItem 
+          onSelect={(e) => {
+            e.preventDefault()
+            handleSignOut()
+          }}
+        >
+          Sign out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
