@@ -19,15 +19,24 @@ interface ProfileFormProps {
     phone: string
     email: string
     linkedin: string
+    github_link: string
     title: string
     summary: string
+    bio_photo: string
   }
 }
 
 export function ProfileForm({ profile }: ProfileFormProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState(profile)
+  const [formData, setFormData] = useState({
+    ...profile,
+    github_link: profile.github_link || "",  // Ensure github_link is never null
+    phone: profile.phone || "",              // Also handle other optional fields
+    linkedin: profile.linkedin || "",
+    summary: profile.summary || "",
+    bio_photo: profile.bio_photo || ""
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -96,8 +105,16 @@ export function ProfileForm({ profile }: ProfileFormProps) {
               <Input id="linkedin" name="linkedin" value={formData.linkedin} onChange={handleChange} />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="github_link">GitHub</Label>
+              <Input id="github_link" name="github_link" value={formData.github_link} onChange={handleChange} />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="title">Professional Title</Label>
               <Input id="title" name="title" value={formData.title} onChange={handleChange} required />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="bio_photo">Profile Photo URL</Label>
+              <Input id="bio_photo" name="bio_photo" value={formData.bio_photo} onChange={handleChange} placeholder="Enter URL for your profile photo" />
             </div>
           </div>
           <div className="space-y-2">

@@ -28,8 +28,8 @@ export function Header({ user: serverUser }: HeaderProps) {
         <div className="flex h-16 items-center justify-between">
           {/* Desktop: Logo on left */}
           <div className="hidden md:flex items-center">
-            <Link href="/" className="font-bold text-xl">
-              YourLogo
+            <Link href="/" className="font-bold text-2xl">
+              TWM
             </Link>
           </div>
 
@@ -56,8 +56,8 @@ export function Header({ user: serverUser }: HeaderProps) {
           
           {/* Mobile: Logo and Hamburger */}
           <div className="flex items-center justify-between md:hidden w-full">
-            <Link href="/" className="font-bold text-xl">
-              YourLogo
+            <Link href="/" className="font-bold text-2xl">
+              P
             </Link>
             <MobileMenu user={user} />
           </div>

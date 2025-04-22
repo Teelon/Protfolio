@@ -37,7 +37,58 @@ export type LoginFormState = {
   }
 }
 
+// Create site_settings table if it doesn't exist
+async function initializeSiteSettings() {
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS site_settings (
+        id SERIAL PRIMARY KEY,
+        allow_registration BOOLEAN NOT NULL DEFAULT true,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      )
+    `
+    
+    // Insert default settings if table is empty
+    const settings = await sql`SELECT id FROM site_settings LIMIT 1`
+    if (settings.length === 0) {
+      await sql`
+        INSERT INTO site_settings (allow_registration)
+        VALUES (true)
+      `
+    }
+  } catch (error) {
+    console.error("Error initializing site settings:", error)
+  }
+}
+
+// Call initialization when the module loads
+initializeSiteSettings()
+
+// Function to check if registration is allowed
+async function isRegistrationAllowed(): Promise<boolean> {
+  try {
+    const settings = await sql`
+      SELECT allow_registration FROM site_settings
+      ORDER BY id DESC LIMIT 1
+    `
+    return settings.length > 0 ? settings[0].allow_registration : true
+  } catch (error) {
+    console.error("Error checking registration status:", error)
+    return false
+  }
+}
+
 export async function registerUser(prevState: RegisterFormState, formData: FormData): Promise<RegisterFormState> {
+  // Check if registration is allowed
+  const registrationAllowed = await isRegistrationAllowed()
+  if (!registrationAllowed) {
+    return {
+      errors: {
+        _form: ["Registration is currently disabled"]
+      }
+    }
+  }
+
   // Validate form data
   const validatedFields = registerSchema.safeParse({
     name: formData.get("name"),

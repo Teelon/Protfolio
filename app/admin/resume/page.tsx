@@ -15,8 +15,10 @@ interface Profile {
   phone: string
   email: string
   linkedin: string
+  github_link: string
   title: string
   summary: string
+  bio_photo: string
 }
 
 async function getProfile(): Promise<Profile> {
@@ -30,8 +32,10 @@ async function getProfile(): Promise<Profile> {
       phone: "",
       email: "",
       linkedin: "",
+      github_link: "",
       title: "",
       summary: "",
+      bio_photo: ""
     }
   } catch (error) {
     console.error("Error fetching profile:", error)
@@ -42,8 +46,10 @@ async function getProfile(): Promise<Profile> {
       phone: "",
       email: "",
       linkedin: "",
+      github_link: "",
       title: "",
       summary: "",
+      bio_photo: ""
     }
   }
 }

@@ -6,7 +6,7 @@ export default auth((req) => {
   const isLoggedIn = !!auth?.user
   const isAdmin = auth?.user?.role === "admin"
   const isAdminPanel = nextUrl.pathname.startsWith("/admin")
-  const isProjectsRoute = nextUrl.pathname.startsWith("/projects")
+  const isAdminProjectsRoute = nextUrl.pathname.startsWith("/admin/projects")
 
   // If trying to access admin routes without admin role, redirect to login
   if (isAdminPanel && !isAdmin) {
@@ -18,15 +18,10 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/", nextUrl))
   }
 
-  // If trying to access project management without being logged in
-  if (isProjectsRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(nextUrl.pathname)}`, nextUrl))
-  }
-
   return NextResponse.next()
 })
 
 // Specify which routes the middleware should run on
 export const config = {
-  matcher: ["/admin/:path*", "/login", "/register", "/projects/:path*"],
+  matcher: ["/admin/:path*", "/login", "/register"]
 }

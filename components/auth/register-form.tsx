@@ -1,6 +1,8 @@
 "use client"
-import { useFormState, useFormStatus } from "react-dom"
+import { useActionState } from "react"
+import { useFormStatus } from "react-dom"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { registerUser, type RegisterFormState } from "@/lib/actions/auth-actions"
 import { Button } from "@/components/ui/button"
@@ -22,8 +24,16 @@ function RegisterButton() {
 }
 
 export function RegisterForm() {
-  const [state, formAction] = useFormState(registerUser, initialState)
+  const [state, formAction] = useActionState(registerUser, initialState)
   const router = useRouter()
+  const [registrationDisabled, setRegistrationDisabled] = useState(false)
+
+  useEffect(() => {
+    // If registration is disabled from the server action response
+    if (state.errors?._form?.includes("Registration is currently disabled")) {
+      setRegistrationDisabled(true)
+    }
+  }, [state.errors?._form])
 
   // Redirect to login page after successful registration
   if (state.success) {
@@ -33,8 +43,8 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="grid gap-6">
-      <form action={formAction}>
+    <div className="grid gap-6 w-full">
+      <form action={formAction} className="w-full">
         <div className="grid gap-4">
           {state.errors?._form && (
             <Alert variant="destructive">
@@ -59,8 +69,9 @@ export function RegisterForm() {
               name="name"
               autoComplete="name"
               required
-              disabled={state.success}
+              disabled={state.success || registrationDisabled}
               aria-invalid={!!state.errors?.name}
+              className="w-full"
             />
             {state.errors?.name && <p className="text-sm text-destructive">{state.errors.name.join(", ")}</p>}
           </div>
@@ -73,8 +84,9 @@ export function RegisterForm() {
               type="email"
               autoComplete="email"
               required
-              disabled={state.success}
+              disabled={state.success || registrationDisabled}
               aria-invalid={!!state.errors?.email}
+              className="w-full"
             />
             {state.errors?.email && <p className="text-sm text-destructive">{state.errors.email.join(", ")}</p>}
           </div>
@@ -87,20 +99,21 @@ export function RegisterForm() {
               type="password"
               autoComplete="new-password"
               required
-              disabled={state.success}
+              disabled={state.success || registrationDisabled}
               aria-invalid={!!state.errors?.password}
+              className="w-full"
             />
-            {state.errors?.password && <p className="text-sm text-destructive">{state.errors.password.join(", ")}</p>}
-            <p className="text-xs text-muted-foreground">Password must be at least 8 characters long</p>
+            {state.errors?.password && (
+              <p className="text-sm text-destructive">{state.errors.password.join(", ")}</p>
+            )}
           </div>
 
           <RegisterButton />
         </div>
       </form>
-
       <div className="text-center text-sm">
         Already have an account?{" "}
-        <Link href="/login" className="underline">
+        <Link href="/login" className="text-primary hover:underline">
           Sign in
         </Link>
       </div>

@@ -23,8 +23,10 @@ export async function PUT(request: Request) {
           phone = ${data.phone}, 
           email = ${data.email}, 
           linkedin = ${data.linkedin}, 
+          github_link = ${data.github_link},
           title = ${data.title}, 
-          summary = ${data.summary}, 
+          summary = ${data.summary},
+          bio_photo = ${data.bio_photo},
           updated_at = NOW()
       WHERE id = ${data.id}
       RETURNING *
@@ -34,8 +36,8 @@ export async function PUT(request: Request) {
       // If no record was updated, insert a new one
       const newProfile = await sql`
         INSERT INTO resume_profile 
-        (name, location, phone, email, linkedin, title, summary)
-        VALUES (${data.name}, ${data.location}, ${data.phone}, ${data.email}, ${data.linkedin}, ${data.title}, ${data.summary})
+        (name, location, phone, email, linkedin, github_link, title, summary, bio_photo)
+        VALUES (${data.name}, ${data.location}, ${data.phone}, ${data.email}, ${data.linkedin}, ${data.github_link}, ${data.title}, ${data.summary}, ${data.bio_photo})
         RETURNING *
       `
       return NextResponse.json(newProfile[0])

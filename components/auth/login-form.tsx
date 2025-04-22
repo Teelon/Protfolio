@@ -35,12 +35,12 @@ export function LoginForm({ callbackUrl = "/" }: { callbackUrl?: string }) {
   }
 
   return (
-    <div className="grid gap-6">
-      <form onSubmit={handleSubmit}>
+    <div className="grid gap-6 w-full">
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="grid gap-4">
           {error && (
             <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="h-2 w-4" />
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
@@ -51,22 +51,23 @@ export function LoginForm({ callbackUrl = "/" }: { callbackUrl?: string }) {
               id="email"
               name="email"
               type="email"
-              placeholder="name@example.com"
               autoComplete="email"
               required
+              disabled={isLoading}
+              className="w-full"
             />
           </div>
 
           <div className="grid gap-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-            </div>
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               name="password"
               type="password"
               autoComplete="current-password"
               required
+              disabled={isLoading}
+              className="w-full"
             />
           </div>
 
@@ -77,9 +78,8 @@ export function LoginForm({ callbackUrl = "/" }: { callbackUrl?: string }) {
       </form>
 
       <div className="text-center text-sm">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="underline">
-          Sign up
+        <Link href="/register" className="text-muted-foreground hover:text-foreground">
+          Don&apos;t have an account? Sign up
         </Link>
       </div>
     </div>
