@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/header"
 import { ThemeProvider } from "@/components/theme-provider"
 import "@/app/globals.css"
 import { auth } from "@/auth"
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: "Data Analytics Portfolio",
@@ -25,7 +26,7 @@ export default async function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <div className="relative flex min-h-screen flex-col">
               <Header user={user} />
-              <main className="flex-1">{children}</main>
+              <main className="flex-1">{children}  <Analytics /></main>
               <footer className="border-t py-6 md:py-0">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">
                   <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
