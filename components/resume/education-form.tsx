@@ -126,73 +126,97 @@ export function EducationForm({ education = defaultEducation, mode }: EducationF
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{mode === "create" ? "Add Education" : "Edit Education"}</CardTitle>
-        {mode === "edit" && (
-          <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isLoading}>
-            Delete
-          </Button>
-        )}
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="degree">Degree</Label>
-              <Input id="degree" name="degree" value={formData.degree} onChange={handleChange} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="institution">Institution</Label>
-              <Input
-                id="institution"
-                name="institution"
-                value={formData.institution}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <Input id="location" name="location" value={formData.location} onChange={handleChange} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="gpa">GPA</Label>
-              <Input id="gpa" name="gpa" value={formData.gpa || ""} onChange={handleChange} placeholder="Optional" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="start_date">Start Date</Label>
-              <Input
-                id="start_date"
-                name="start_date"
-                type="date"
-                value={formData.start_date}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="end_date">End Date</Label>
-              <Input
-                id="end_date"
-                name="end_date"
-                type="date"
-                value={formData.end_date || ""}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <Card>
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+          <CardTitle>{mode === "create" ? "Add Education" : "Edit Education"}</CardTitle>
+          {mode === "edit" && (
+            <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isLoading}>
+              Delete
+            </Button>
+          )}
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="degree">Degree *</Label>
+                <Input
+                  id="degree"
+                  name="degree"
+                  value={formData.degree}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
 
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={navigateBack} disabled={isLoading}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+              <div className="space-y-2">
+                <Label htmlFor="institution">Institution *</Label>
+                <Input
+                  id="institution"
+                  name="institution"
+                  value={formData.institution}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="gpa">GPA</Label>
+                <Input
+                  id="gpa"
+                  name="gpa"
+                  value={formData.gpa || ""}
+                  onChange={handleChange}
+                  placeholder="Optional"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="start_date">Start Date *</Label>
+                <Input
+                  id="start_date"
+                  name="start_date"
+                  type="date"
+                  value={formData.start_date}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="end_date">End Date</Label>
+                <Input
+                  id="end_date"
+                  name="end_date"
+                  type="date"
+                  value={formData.end_date || ""}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t">
+              <Button type="button" variant="outline" onClick={navigateBack} disabled={isLoading}>
+                Back
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Saving..." : mode === "create" ? "Add Education" : "Save Changes"}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

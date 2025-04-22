@@ -212,106 +212,104 @@ export function CertificationForm({ certification = defaultCertification, mode }
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{mode === "create" ? "Add Certification" : "Edit Certification"}</CardTitle>
-        {mode === "edit" && (
-          <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isLoading}>
-            Delete
-          </Button>
-        )}
-      </CardHeader>
-      <CardContent>
-        {formError && (
-          <Alert variant="destructive" className="mb-6">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{formError}</AlertDescription>
-          </Alert>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="title" className={errors.title ? "text-destructive" : ""}>
-                Title
-              </Label>
-              <Input
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-                className={errors.title ? "border-destructive" : ""}
-              />
-              {errors.title && <p className="text-sm text-destructive">{errors.title}</p>}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="issuer" className={errors.issuer ? "text-destructive" : ""}>
-                Issuer
-              </Label>
-              <Input
-                id="issuer"
-                name="issuer"
-                value={formData.issuer}
-                onChange={handleChange}
-                required
-                className={errors.issuer ? "border-destructive" : ""}
-              />
-              {errors.issuer && <p className="text-sm text-destructive">{errors.issuer}</p>}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="issue_date" className={errors.issue_date ? "text-destructive" : ""}>
-                Issue Date
-              </Label>
-              <Input
-                id="issue_date"
-                name="issue_date"
-                type="date"
-                value={formData.issue_date}
-                onChange={handleChange}
-                required
-                className={errors.issue_date ? "border-destructive" : ""}
-              />
-              {errors.issue_date && <p className="text-sm text-destructive">{errors.issue_date}</p>}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="expiry_date" className={errors.expiry_date ? "text-destructive" : ""}>
-                Expiry Date (Optional)
-              </Label>
-              <Input
-                id="expiry_date"
-                name="expiry_date"
-                type="date"
-                value={formData.expiry_date || ""}
-                onChange={handleChange}
-                className={errors.expiry_date ? "border-destructive" : ""}
-              />
-              {errors.expiry_date && <p className="text-sm text-destructive">{errors.expiry_date}</p>}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Description (Optional)</Label>
-            <Textarea
-              id="description"
-              name="description"
-              value={formData.description || ""}
-              onChange={handleChange}
-              rows={3}
-            />
-          </div>
-
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={navigateBack} disabled={isLoading}>
-              Cancel
+    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <Card>
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+          <CardTitle>{mode === "create" ? "Add Certification" : "Edit Certification"}</CardTitle>
+          {mode === "edit" && (
+            <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isLoading}>
+              Delete
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+          )}
+        </CardHeader>
+        <CardContent>
+          {formError && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{formError}</AlertDescription>
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="title">Title *</Label>
+                <Input
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                  className={errors.title ? "border-destructive" : ""}
+                />
+                {errors.title && <p className="text-sm text-destructive">{errors.title}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="issuer">Issuer *</Label>
+                <Input
+                  id="issuer"
+                  name="issuer"
+                  value={formData.issuer}
+                  onChange={handleChange}
+                  required
+                  className={errors.issuer ? "border-destructive" : ""}
+                />
+                {errors.issuer && <p className="text-sm text-destructive">{errors.issuer}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="issue_date">Issue Date *</Label>
+                <Input
+                  id="issue_date"
+                  name="issue_date"
+                  type="date"
+                  value={formData.issue_date}
+                  onChange={handleChange}
+                  required
+                  className={errors.issue_date ? "border-destructive" : ""}
+                />
+                {errors.issue_date && <p className="text-sm text-destructive">{errors.issue_date}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="expiry_date">Expiry Date</Label>
+                <Input
+                  id="expiry_date"
+                  name="expiry_date"
+                  type="date"
+                  value={formData.expiry_date || ""}
+                  onChange={handleChange}
+                  className={errors.expiry_date ? "border-destructive" : ""}
+                />
+                {errors.expiry_date && <p className="text-sm text-destructive">{errors.expiry_date}</p>}
+              </div>
+
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={formData.description || ""}
+                  onChange={handleChange}
+                  rows={4}
+                  placeholder="Add any additional details about the certification"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t">
+              <Button type="button" variant="outline" onClick={navigateBack} disabled={isLoading}>
+                Back
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Saving..." : mode === "create" ? "Add Certification" : "Save Changes"}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

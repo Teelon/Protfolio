@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "@/components/ui/use-toast"
-import { Trash2 } from "lucide-react"
+import { Trash2, Plus } from "lucide-react"
 import { useTab } from "@/contexts/tab-context"
 
 interface ExperienceFormProps {
@@ -165,109 +165,143 @@ export function ExperienceForm({ experience = defaultExperience, mode }: Experie
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{mode === "create" ? "Add Experience" : "Edit Experience"}</CardTitle>
-        {mode === "edit" && (
-          <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isLoading}>
-            Delete
-          </Button>
-        )}
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="position">Position</Label>
-              <Input id="position" name="position" value={formData.position} onChange={handleChange} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="company">Company</Label>
-              <Input id="company" name="company" value={formData.company} onChange={handleChange} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <Input id="location" name="location" value={formData.location} onChange={handleChange} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="employment_type">Employment Type</Label>
-              <Input
-                id="employment_type"
-                name="employment_type"
-                value={formData.employment_type}
-                onChange={handleChange}
-                placeholder="Full-Time, Part-Time, Contract, etc."
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="start_date">Start Date</Label>
-              <Input
-                id="start_date"
-                name="start_date"
-                type="date"
-                value={formData.start_date}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="end_date">End Date</Label>
-              <Input
-                id="end_date"
-                name="end_date"
-                type="date"
-                value={formData.end_date || ""}
-                onChange={handleChange}
-                disabled={formData.current}
-              />
-              <div className="flex items-center space-x-2 pt-2">
-                <Checkbox id="current" checked={formData.current} onCheckedChange={handleCheckboxChange} />
+    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <Card>
+        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+          <CardTitle>{mode === "create" ? "Add Experience" : "Edit Experience"}</CardTitle>
+          {mode === "edit" && (
+            <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isLoading}>
+              Delete
+            </Button>
+          )}
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid gap-6">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="position">Position *</Label>
+                  <Input
+                    id="position"
+                    name="position"
+                    value={formData.position}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="company">Company *</Label>
+                  <Input
+                    id="company"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="location">Location</Label>
+                  <Input
+                    id="location"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="employment_type">Employment Type</Label>
+                  <Input
+                    id="employment_type"
+                    name="employment_type"
+                    value={formData.employment_type}
+                    onChange={handleChange}
+                    placeholder="e.g., Full-time, Part-time, Contract"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="start_date">Start Date *</Label>
+                  <Input
+                    id="start_date"
+                    name="start_date"
+                    type="date"
+                    value={formData.start_date}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="end_date">End Date</Label>
+                  <Input
+                    id="end_date"
+                    name="end_date"
+                    type="date"
+                    value={formData.end_date || ""}
+                    onChange={handleChange}
+                    disabled={formData.current}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="current"
+                  checked={formData.current}
+                  onCheckedChange={handleCheckboxChange}
+                />
                 <label
                   htmlFor="current"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Current Position
+                  I currently work here
                 </label>
               </div>
-            </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label>Description</Label>
-            {formData.description.map((item, index) => (
-              <div key={index} className="flex items-center gap-2 mt-2">
-                <Textarea
-                  value={item}
-                  onChange={(e) => handleDescriptionChange(index, e.target.value)}
-                  placeholder="Bullet point description"
-                  className="flex-1"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeDescriptionItem(index)}
-                  disabled={formData.description.length <= 1}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <Label>Description</Label>
+                  <Button type="button" variant="outline" size="sm" onClick={addDescriptionItem}>
+                    <Plus className="h-4 w-4 mr-1" /> Add Description
+                  </Button>
+                </div>
+
+                {formData.description.map((item: string, index: number) => (
+                  <div key={index} className="flex gap-2">
+                    <Textarea
+                      value={item}
+                      onChange={(e) => handleDescriptionChange(index, e.target.value)}
+                      placeholder="Add a description of your responsibilities and achievements"
+                      className="flex-1"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeDescriptionItem(index)}
+                      disabled={formData.description.length <= 1}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
               </div>
-            ))}
-            <Button type="button" variant="outline" size="sm" onClick={addDescriptionItem} className="mt-2">
-              Add Description Item
-            </Button>
-          </div>
+            </div>
 
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="outline" onClick={navigateBack} disabled={isLoading}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+            <div className="flex flex-col sm:flex-row justify-between gap-4 pt-6 border-t">
+              <Button type="button" variant="outline" onClick={navigateBack} disabled={isLoading}>
+                Back
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Saving..." : mode === "create" ? "Add Experience" : "Save Changes"}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

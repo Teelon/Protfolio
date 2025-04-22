@@ -3,25 +3,28 @@ import { AuthProvider } from "@/providers/auth-provider"
 import { Header } from "@/components/layout/header"
 import { ThemeProvider } from "@/components/theme-provider"
 import "@/app/globals.css"
+import { auth } from "@/auth"
 
 export const metadata = {
   title: "Data Analytics Portfolio",
   description: "A modern data analytics portfolio website",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await auth()
+  const user = session?.user
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased" suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             <div className="relative flex min-h-screen flex-col">
-              <Header />
+              <Header user={user} />
               <main className="flex-1">{children}</main>
               <footer className="border-t py-6 md:py-0">
                 <div className="container flex flex-col items-center justify-between gap-4 md:h-16 md:flex-row">

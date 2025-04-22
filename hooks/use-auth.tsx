@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation"
 
 interface User {
   id: string
-  name: string
-  email: string
-  role: string
+  name?: string | null
+  email?: string | null
+  image?: string | null
+  role?: string | null
 }
 
 interface AuthState {
@@ -32,11 +33,11 @@ export function useAuth() {
           throw new Error("Failed to fetch session")
         }
 
-        const data = await res.json()
+        const session = await res.json()
 
-        if (data.user) {
+        if (session?.user) {
           setState({
-            user: data.user,
+            user: session.user,
             isLoading: false,
             error: null,
           })
