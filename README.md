@@ -28,6 +28,10 @@ A modern, full-stack portfolio website built with Next.js 14, TypeScript, Tailwi
   - Dark/light theme support
   - Modern UI components
   - Mobile-friendly navigation
+- **Home Page**
+  - Currently includes some static content in v1.0
+  - Future versions will implement dynamic content loading
+  - Plans to make all sections fully database-driven
 
 ## 🛠️ Tech Stack
 
@@ -104,17 +108,34 @@ A modern, full-stack portfolio website built with Next.js 14, TypeScript, Tailwi
 ```
 ├── app/                   # Next.js 14 app directory
 │   ├── admin/            # Admin dashboard pages
+│   │   ├── manage-projects/  # Project management
+│   │   ├── projects/        # Project administration
+│   │   ├── resume/         # Resume management
+│   │   └── users/         # User management
 │   ├── api/              # API routes
-│   ├── auth/             # Authentication pages
-│   └── projects/         # Project pages
-├── components/           # React components
-│   ├── auth/            # Authentication components
-│   ├── layout/          # Layout components
-│   ├── projects/        # Project-related components
-│   └── ui/              # UI components
-├── lib/                 # Utility functions
-├── public/              # Static assets
-└── types/              # TypeScript type definitions
+│   │   ├── auth/         # Authentication endpoints
+│   │   ├── projects/     # Project endpoints
+│   │   └── resume/       # Resume endpoints
+│   ├── about/           # About page
+│   ├── contact/         # Contact page
+│   ├── login/           # Login page
+│   ├── profile/         # User profile
+│   ├── projects/        # Project pages
+│   └── register/        # Registration page
+├── components/          # React components
+│   ├── auth/           # Authentication components
+│   ├── layout/         # Layout components
+│   ├── projects/       # Project-related components
+│   ├── resume/         # Resume components
+│   └── ui/             # Shadcn UI components
+├── contexts/           # React contexts
+├── hooks/              # Custom React hooks
+├── lib/               # Utility functions
+│   └── actions/       # Server actions
+├── providers/         # React providers
+├── public/            # Static assets
+├── styles/           # Global styles
+└── types/            # TypeScript type definitions
 ```
 
 ## 🔒 Authentication
@@ -132,13 +153,65 @@ The application uses NextAuth.js with a custom credentials provider. Users can:
 
 ## 🗄️ Database Schema
 
-See `ddl.sql` in the root directory for the complete database structure. Key tables:
+The database schema includes the following tables with their structures:
 
-- users
-- projects
-- site_settings
-- sessions
-- accounts
+### Resume Profile
+- Personal information including name, location, contact details
+- Professional summary and title
+- Social links and bio photo
+- Automatic timestamp tracking
+
+### Education
+- Academic details with institution and degree
+- Date ranges and location
+- Optional GPA field
+- Timestamp tracking
+
+### Experience
+- Professional experience entries
+- Company, position, and location details
+- Employment type and date ranges
+- Array of description points
+- Current position flag
+
+### Projects
+- Comprehensive project details
+- Title, organization, and date ranges
+- Technologies, skills, and tools used (as arrays)
+- URLs for demo, GitHub, and images
+- Slug for SEO-friendly URLs
+- Featured flag for highlighting
+- Creation and update timestamps
+
+### Certifications
+- Professional certifications
+- Issuer and dates
+- Optional expiry tracking
+- Description field
+
+### Skills
+- Categorized skill sets
+- Array of skills per category
+- Timestamp tracking
+
+### Volunteering
+- Volunteer experience
+- Organization and position details
+- Date ranges and location
+- Array of description points
+
+### Users
+- User authentication and profile
+- Email and password (hashed)
+- Role-based access control
+- Name and creation tracking
+
+### Site Settings
+- Global site configuration
+- Registration control flag
+- Update timestamp tracking
+
+All tables include appropriate constraints and data types optimized for PostgreSQL. See `ddl.sql` for the complete schema definition including indexes and constraints.
 
 ## Database Configuration
 
@@ -201,3 +274,26 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📝 License
 
 This project is MIT licensed.
+
+## 🗺️ Roadmap / Coming Soon
+
+- **Dynamic Home Page**
+  - Converting static content to database-driven sections
+  - Customizable layout and content management
+  - Real-time content updates
+
+- **Enhanced Media Management**
+  - Cloud storage integration (AWS S3 or Google Cloud Storage)
+  - Image optimization and responsive delivery
+  - Media library management
+  - Support for multiple file types
+
+- **Blog Platform**
+  - Article publishing system
+  - Rich text editor
+  - Categories and tags
+  - SEO optimization
+  - Comments system
+  - RSS feed support
+
+These features are under development and will be included in future releases.
